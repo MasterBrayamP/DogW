@@ -1,28 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.myapplication.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+        android:id="@+id/loginFragment"
+        android:name="com.example.myapplication.ui.LoginFragment"
+        android:label="Login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.myapplication.ui.RegisterFragment"
+        android:label="Registro" />
+    <fragment
+        android:id="@+id/ownerHomeFragment"
+        android:name="com.example.myapplication.ui.OwnerHomeFragment"
+        android:label="Home" />
+    <fragment
+        android:id="@+id/registerDogFragment"
+        android:name="com.example.myapplication.ui.RegisterDogFragment"
+        android:label="Registrar perro">
+        <argument
+            android:name="dogId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.myapplication.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+        android:id="@+id/dogProfileFragment"
+        android:name="com.example.myapplication.ui.DogProfileFragment"
+        android:label="Perfil del perro">
+        <argument android:name="dogId" app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/requestWalkFragment"
+        android:name="com.example.myapplication.ui.RequestWalkFragment"
+        android:label="Solicitar paseo">
+        <argument
+            android:name="dogId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/walkStatusFragment"
+        android:name="com.example.myapplication.ui.WalkStatusFragment"
+        android:label="Estado del paseo">
+        <argument android:name="walkId" app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/liveMapFragment"
+        android:name="com.example.myapplication.ui.LiveMapFragment"
+        android:label="Mapa GPS">
+        <argument android:name="walkId" app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/walkerHomeFragment"
+        android:name="com.example.myapplication.ui.WalkerHomeFragment"
+        android:label="Paseador" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myapplication.ui.ProfileFragment"
+        android:label="Perfil" />
 </navigation>
