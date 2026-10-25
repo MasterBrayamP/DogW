@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.myapplication.ui.LoginFragment"
+        android:label="Login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.myapplication.ui.RegisterFragment"
+        android:label="Registro" />
+    <fragment
+        android:id="@+id/ownerHomeFragment"
+        android:name="com.example.myapplication.ui.OwnerHomeFragment"
+        android:label="Home" />
+    <fragment
+        android:id="@+id/registerDogFragment"
+        android:name="com.example.myapplication.ui.RegisterDogFragment"
+        android:label="Registrar perro">
+        <argument
+            android:name="dogId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogProfileFragment"
+        android:name="com.example.myapplication.ui.DogProfileFragment"
+        android:label="Perfil del perro">
+        <argument android:name="dogId" app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestWalkFragment"
+        android:name="com.example.myapplication.ui.RequestWalkFragment"
+        android:label="Solicitar paseo">
+        <argument
+            android:name="dogId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+    <fragment
+        android:id="@+id/walkStatusFragment"
+        android:name="com.example.myapplication.ui.WalkStatusFragment"
+        android:label="Estado del paseo">
+        <argument android:name="walkId" app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/liveMapFragment"
+        android:name="com.example.myapplication.ui.LiveMapFragment"
+        android:label="Mapa GPS">
+        <argument android:name="walkId" app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/walkerHomeFragment"
+        android:name="com.example.myapplication.ui.WalkerHomeFragment"
+        android:label="Paseador" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myapplication.ui.ProfileFragment"
+        android:label="Perfil" />
+</navigation>

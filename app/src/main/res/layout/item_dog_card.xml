@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootCard"
+    android:layout_width="110dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="12dp"
+    android:background="@drawable/bg_card"
+    android:elevation="2dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/avatar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_avatar"
+        android:gravity="center"
+        android:text="L"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Luna"
+        android:textColor="@color/dw_text"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/breed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Golden"
+        android:textColor="@color/dw_muted"
+        android:textSize="11sp" />
+</LinearLayout>

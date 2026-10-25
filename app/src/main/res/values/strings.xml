@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Dog Walker</string>
+    <string name="demo_hint">Demo dueño: ana@example.com / 123456\nDemo paseador: juan@example.com / 123456</string>
+</resources>
