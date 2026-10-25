@@ -1,5 +1,8 @@
 package com.example.myapplication.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 enum class Role { OWNER, WALKER }
 
 enum class WalkStatus {
@@ -14,8 +17,9 @@ data class User(
     val role: Role
 )
 
+@Entity(tableName = "dogs")
 data class Dog(
-    val id: String,
+    @PrimaryKey val id: String,
     val ownerId: String,
     val name: String,
     val breed: String,

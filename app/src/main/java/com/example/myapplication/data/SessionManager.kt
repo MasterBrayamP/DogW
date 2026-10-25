@@ -1,23 +1,25 @@
 package com.example.myapplication.data
 
-import android.content.Context
-import android.content.SharedPreferences
+import com.example.myapplication.data.datastore.UserPreferencesManager
+import kotlinx.coroutines.runBlocking
 
-class SessionManager(context: Context) {
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences("dog_walker_session", Context.MODE_PRIVATE)
+class SessionManager(private val userPreferencesManager: UserPreferencesManager) {
+
+    private var cachedUserId: String? = null
+
+    init {
+        cachedUserId = runBlocking { userPreferencesManager.getCurrentUserId() }
+    }
 
     fun login(userId: String) {
-        prefs.edit().putString(KEY_USER, userId).apply()
+        cachedUserId = userId
+        runBlocking { userPreferencesManager.saveCurrentUserId(userId) }
     }
 
     fun logout() {
-        prefs.edit().remove(KEY_USER).apply()
+        cachedUserId = null
+        runBlocking { userPreferencesManager.clearSession() }
     }
 
-    fun currentUserId(): String? = prefs.getString(KEY_USER, null)
-
-    companion object {
-        private const val KEY_USER = "user_id"
-    }
+    fun currentUserId(): String? = cachedUserId
 }

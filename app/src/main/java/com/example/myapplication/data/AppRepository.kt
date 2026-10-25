@@ -4,11 +4,17 @@ import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.myapplication.data.datastore.UserPreferencesManager
+import com.example.myapplication.data.repository.DogRepository
+import kotlinx.coroutines.runBlocking
 import java.util.UUID
 import kotlin.math.min
 import kotlin.random.Random
 
-class AppRepository(private val store: PrefsStore) {
+class AppRepository(
+    private val dogRepository: DogRepository,
+    private val userPreferencesManager: UserPreferencesManager
+) {
 
     private val users = mutableListOf<User>()
     private val dogs = mutableListOf<Dog>()
@@ -26,10 +32,17 @@ class AppRepository(private val store: PrefsStore) {
         users.clear()
         dogs.clear()
         walks.clear()
-        users += store.loadUsers()
-        dogs += store.loadDogs()
-        walks += store.loadWalks()
-        if (users.isEmpty()) seed()
+
+        runBlocking {
+            users += userPreferencesManager.loadUsers()
+            dogs += dogRepository.getAllDogs()
+            walks += userPreferencesManager.loadWalks()
+        }
+
+        if (users.isEmpty() && dogs.isEmpty()) {
+            seed()
+        }
+
         publish()
         resumeTrackingIfNeeded()
     }
@@ -50,13 +63,13 @@ class AppRepository(private val store: PrefsStore) {
     fun register(name: String, email: String, password: String, role: Role): User {
         val user = User(UUID.randomUUID().toString(), name.trim(), email.trim(), password, role)
         users += user
-        store.saveUsers(users)
+        runBlocking { userPreferencesManager.saveUsers(users) }
         return user
     }
 
     fun addDog(dog: Dog) {
         dogs += dog
-        store.saveDogs(dogs)
+        runBlocking { dogRepository.insertDog(dog) }
         publish()
     }
 
@@ -64,9 +77,15 @@ class AppRepository(private val store: PrefsStore) {
         val i = dogs.indexOfFirst { it.id == dog.id }
         if (i >= 0) {
             dogs[i] = dog
-            store.saveDogs(dogs)
+            runBlocking { dogRepository.updateDog(dog) }
             publish()
         }
+    }
+
+    fun deleteDog(dog: Dog) {
+        dogs.removeAll { it.id == dog.id }
+        runBlocking { dogRepository.deleteDog(dog) }
+        publish()
     }
 
     fun createWalk(
@@ -139,7 +158,7 @@ class AppRepository(private val store: PrefsStore) {
     }
 
     private fun persistWalks() {
-        store.saveWalks(walks)
+        runBlocking { userPreferencesManager.saveWalks(walks) }
         _walksLive.value = walks.toList()
     }
 
@@ -153,7 +172,8 @@ class AppRepository(private val store: PrefsStore) {
         val juan = User("u-juan", "Juan", "juan@example.com", "123456", Role.WALKER)
         users += ana
         users += juan
-        dogs += Dog(
+
+        val luna = Dog(
             id = "d-luna",
             ownerId = ana.id,
             name = "Luna",
@@ -165,7 +185,7 @@ class AppRepository(private val store: PrefsStore) {
             condition = "Displasia de cadera leve, no puede correr largas distancias.",
             avatarColor = "#EAB308"
         )
-        dogs += Dog(
+        val rocky = Dog(
             id = "d-rocky",
             ownerId = ana.id,
             name = "Rocky",
@@ -177,9 +197,14 @@ class AppRepository(private val store: PrefsStore) {
             condition = "",
             avatarColor = "#A16207"
         )
-        store.saveUsers(users)
-        store.saveDogs(dogs)
-        store.saveWalks(walks)
+        dogs += luna
+        dogs += rocky
+
+        runBlocking {
+            userPreferencesManager.saveUsers(users)
+            dogRepository.insertDogs(dogs)
+            userPreferencesManager.saveWalks(walks)
+        }
     }
 
     private fun resumeTrackingIfNeeded() {
